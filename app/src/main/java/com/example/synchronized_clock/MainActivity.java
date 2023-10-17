@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getSystemTid() {
+    private void getSystemTid() {  // funktion för att få tid information från mobile system
         Date date = new Date(System.currentTimeMillis());
         String time = timeFormat.format(date);
-        updateTimeText("System Time: " + time, Color.parseColor("#FF00FF"));
+        updateTimeText("System Tid: " + time, Color.parseColor("#FF00FF"));
     }
 
     private void getnätvarktid() {  //NTP server some ta information från google time
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     // String timen = timeFormat.format(networkTime);
 
                     runOnUiThread(() -> {
-                        updateTimeText("Network Tid: " + date, Color.BLACK);
+                        updateTimeText("Nätvärk Tid: " + date, Color.BLACK);
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -115,7 +115,7 @@ private Date getnätvarktid()
             throw new RuntimeException(e);
         }
 */
-        private void updateTimeText(String text, int color) {
+        private void updateTimeText(String text, int color) { // text storlek
         runOnUiThread(() -> {
             timeTextView.setText(text);
             if (text.startsWith("System tid")) {
@@ -127,7 +127,7 @@ private Date getnätvarktid()
         });
     }
 
-    private boolean ärNätvarktillgänglig() {
+    private boolean ärNätvarktillgänglig() {  // is the network avelable
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
 
