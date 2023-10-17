@@ -118,7 +118,7 @@ private Date getnätvarktid()
         private void updateTimeText(String text, int color) {
         runOnUiThread(() -> {
             timeTextView.setText(text);
-            if (text.startsWith("System Time")) {
+            if (text.startsWith("System tid")) {
                 timeTextView.setTextColor(Color.BLUE);
                 timeTextView.setTextSize(60);
             } else {
