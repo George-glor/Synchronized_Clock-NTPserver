@@ -34,33 +34,33 @@ public class MainActivity extends AppCompatActivity {
         handler = new Handler();
 
         //skapa tid
-        updateraklockan();
+        Updatethetime();
 
         // Update every sec
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                getnätvarktid();
+                getNetWorktime();
                 handler.postDelayed(this, 1000);
             }
         }, 1000);
     }
 
-    private void updateraklockan() {
-        if (ärNätvarktillgänglig()) {
-            getnätvarktid();
+    private void Updatethetime() {
+        if (isThenetworkavelable()) {
+            getNetWorktime();
         } else {
-            getSystemTid();
+            getSystemTime();
         }
     }
 
-    private void getSystemTid() {  // funktion för att få tid information från mobile system
+    private void getSystemTime() {  // funktion för att få tid information från mobile system
         Date date = new Date(System.currentTimeMillis());
         String time = timeFormat.format(date);
         updateTimeText("System Tid: " + time, Color.parseColor("#FF00FF"));
     }
 
-    private void getnätvarktid() {  //NTP server some ta information från google time
+    private void getNetWorktime() {  //NTP server some ta information från google time
         NTPUDPClient ntp = new NTPUDPClient();
         Thread networkTimeThread = new Thread(new Runnable() {
             @Override
@@ -71,15 +71,7 @@ public class MainActivity extends AppCompatActivity {
             Long NTPTime = timeInfo.getMessage(). getTransmitTimeStamp() .getTime();
             Date date = new Date (NTPTime);
             System.out.println("getTime) returning NTServer time: " + date);
-                    // InetAddress addr = InetAddress.getByName("time.google.com");
-                    // ntp.open();
-                    //TimeInfo info = ntp.getTime(addr);
-                    // ntp.close();
-
-                    //Date networkTime = new Date(timeInfo.getReturnTime());
-                    // String timen = timeFormat.format(networkTime);
-
-                    runOnUiThread(() -> {
+                        runOnUiThread(() -> {
                         updateTimeText("Nätvärk Tid: " + date, Color.BLACK);
                     });
                 } catch (Exception e) {
@@ -87,34 +79,15 @@ public class MainActivity extends AppCompatActivity {
 
 
                     runOnUiThread(() -> {
-                        getSystemTid();
+                        getSystemTime();
                     });
                 }
             }
         });
         networkTimeThread.start();
     }
-    /*
-private Date getnätvarktid()
-    {
-        NTPUDPClient timeClient = new NTPUDPClient();
-        timeClient.setDefaultTimeout (2000) ;
-        TimeInfo timeInfo;
-        try {
-            InetAddress inetAddress = InetAddress.getByName ("1.se.pool.ntp.org");
-            timeInfo = timeClient.getTime(inetAddress);
-            Long NTPTime = timeInfo.getMessage(). getTransmitTimeStamp() .getTime();
-            Date date = new Date (NTPTime);
-            System.out.println("getTime) returning NTServer time: " + date);
-            return date;
 
 
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-*/
         private void updateTimeText(String text, int color) { // text storlek
         runOnUiThread(() -> {
             timeTextView.setText(text);
@@ -127,7 +100,7 @@ private Date getnätvarktid()
         });
     }
 
-    private boolean ärNätvarktillgänglig() {  // is the network avelable
+    private boolean isThenetworkavelable() {  // is the network avelable
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
 
