@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private void getSystemTime() {  // funktion för att få tid information från mobile system
         Date date = new Date(System.currentTimeMillis());
         String time = timeFormat.format(date);
-        updateTimeText("System Tid: " + time, Color.parseColor("#FF00FF"));
+        updateTimeText("System Tid: " + time, Color.parseColor("#0000FF"));
     }
 
     private void getNetWorktime() {  //NTP server some ta information från google time
